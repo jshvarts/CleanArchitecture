@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CleanArchitecture</string>
+
+    <string name="lobby_generate_report_button_text">Generate Report</string>
+    <string name="lobby_report_error_text">Report cannot be generated at this time.</string>
+
 </resources>

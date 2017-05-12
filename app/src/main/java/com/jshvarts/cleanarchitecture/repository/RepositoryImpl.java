@@ -6,7 +6,7 @@ import java.util.List;
 import io.reactivex.Single;
 
 /**
- * Repository implementation.
+ * Basic Repository implementation.
  */
 
 public class RepositoryImpl implements Repository {
