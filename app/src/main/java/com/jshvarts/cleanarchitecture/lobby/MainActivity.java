@@ -2,7 +2,6 @@ package com.jshvarts.cleanarchitecture.lobby;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.jshvarts.cleanarchitecture.CleanArchitectureApplication;
 import com.jshvarts.cleanarchitecture.R;
@@ -10,12 +9,17 @@ import com.jshvarts.cleanarchitecture.repository.Repository;
 
 import javax.inject.Inject;
 
-public class MainActivity extends AppCompatActivity {
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+public class MainActivity extends AppCompatActivity {
 
     @Inject
     protected Repository repository;
+
+    private Disposable disposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,18 @@ public class MainActivity extends AppCompatActivity {
 
         ((CleanArchitectureApplication) getApplication()).getAppComponent().inject(this);
 
-        Log.d(LOG_TAG, "item 1 in repo: " + repository.getAllItems().get(0));
+        disposable = repository.getAllItems()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(items -> Timber.d("items: " + items))
+                .doOnError(Timber::e)
+                .subscribe();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        disposable.dispose();
     }
 }

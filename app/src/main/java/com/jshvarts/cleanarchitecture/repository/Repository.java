@@ -2,10 +2,12 @@ package com.jshvarts.cleanarchitecture.repository;
 
 import java.util.List;
 
+import io.reactivex.Single;
+
 /**
  * Repository Interface
  */
 
 public interface Repository {
-    List<String> getAllItems();
+    Single<List<String>> getAllItems();
 }
