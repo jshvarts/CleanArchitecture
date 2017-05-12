@@ -7,6 +7,7 @@ project.ext {
     daggerVersion = "2.10"
     rxAndroidVersion = "2.0.1"
     rxJavaVersion = "2.1.0"
+    butterKnifeVersion = "8.5.1"
     timberVersion = "4.5.1"
 }
 
@@ -47,5 +48,10 @@ dependencies {
     compile "io.reactivex.rxjava2:rxandroid:$project.rxAndroidVersion"
     compile "io.reactivex.rxjava2:rxjava:$project.rxJavaVersion"
 
+    // ButterKnife
+    compile "com.jakewharton:butterknife:$project.butterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$project.butterKnifeVersion"
+
+    // Timber
     compile "com.jakewharton.timber:timber:$project.timberVersion"
 }

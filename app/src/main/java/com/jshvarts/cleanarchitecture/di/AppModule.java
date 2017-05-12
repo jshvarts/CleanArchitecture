@@ -1,7 +1,10 @@
 package com.jshvarts.cleanarchitecture.di;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import com.jshvarts.cleanarchitecture.App;
 import com.jshvarts.cleanarchitecture.repository.Repository;
 import com.jshvarts.cleanarchitecture.repository.RepositoryImpl;
 
@@ -16,22 +19,28 @@ import dagger.Provides;
 
 @Module
 public class AppModule {
-    private final Application application;
+    private final App app;
 
-    public AppModule(Application application) {
-        this.application = application;
+    public AppModule(App app) {
+        this.app = app;
     }
 
     @Provides
     @Singleton
     Application provideApplication() {
-        return application;
+        return app;
     }
 
     @Provides
     @Singleton
     Repository provideRepository() {
         return new RepositoryImpl();
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(app);
     }
 }
 
