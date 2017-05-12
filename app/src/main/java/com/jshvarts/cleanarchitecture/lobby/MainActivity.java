@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ((CleanArchitectureApplication) getApplication()).getAppComponent().inject(this);
+        CleanArchitectureApplication.component().inject(this);
 
         disposable = repository.getAllItems()
                 .subscribeOn(Schedulers.newThread())
