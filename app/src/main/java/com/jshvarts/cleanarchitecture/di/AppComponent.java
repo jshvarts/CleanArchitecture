@@ -1,6 +1,7 @@
 package com.jshvarts.cleanarchitecture.di;
 
-import com.jshvarts.cleanarchitecture.lobby.LobbyActivity;
+import com.jshvarts.cleanarchitecture.lobby.LobbyComponent;
+import com.jshvarts.cleanarchitecture.lobby.LobbyModule;
 
 import javax.inject.Singleton;
 
@@ -12,5 +13,5 @@ import dagger.Component;
 @Singleton
 @Component(modules={AppModule.class})
 public interface AppComponent {
-    void inject(LobbyActivity activity);
+    LobbyComponent plus(LobbyModule module);
 }

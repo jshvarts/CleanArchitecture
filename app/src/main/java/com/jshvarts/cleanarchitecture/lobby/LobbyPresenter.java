@@ -43,7 +43,6 @@ class LobbyPresenter implements BasePresenter<LobbyView> {
         disposable = lobbyReportUseCase.generateReport()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(items -> items.toString())
                 .subscribe(this::onReportDataAvailable, this::onReportDataError);
     }
 
