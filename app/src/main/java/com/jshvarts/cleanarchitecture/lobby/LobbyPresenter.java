@@ -39,6 +39,7 @@ class LobbyPresenter implements BasePresenter<LobbyView> {
     @Inject
     LobbyPresenter(LobbyReportUseCase lobbyReportUseCase) {
         this.lobbyReportUseCase = lobbyReportUseCase;
+        setupRequestStateObserver();
     }
 
     @Override
@@ -78,20 +79,24 @@ class LobbyPresenter implements BasePresenter<LobbyView> {
     void publishRequestState(RequestState requestState) {
         disposables.add(Observable.just(requestState)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(state -> {
-                    switch (state) {
-                        case IDLE:
-                            break;
-                        case LOADING:
-                            view.displayLoadingIndicator();
-                            break;
-                        case COMPLETE:
-                            view.hideLoadingIndicator();
-                            break;
-                        case ERROR:
-                            view.hideLoadingIndicator();
-                            break;
-                    }
-                }, Timber::e));
+                .subscribe(state));
+    }
+
+    private void setupRequestStateObserver() {
+        state.subscribe(requestState -> {
+            switch (requestState) {
+                case IDLE:
+                    break;
+                case LOADING:
+                    view.displayLoadingIndicator();
+                    break;
+                case COMPLETE:
+                    view.hideLoadingIndicator();
+                    break;
+                case ERROR:
+                    view.hideLoadingIndicator();
+                    break;
+            }
+        }, Timber::e);
     }
 }

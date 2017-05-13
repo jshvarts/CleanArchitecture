@@ -23,7 +23,6 @@
         android:id="@+id/display_report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_gravity="center" />
 
     <ProgressBar
