@@ -6,6 +6,7 @@ package com.jshvarts.cleanarchitecture.lobby;
 interface LobbyView {
     void onGenerateReportButtonClicked();
     void displayReportData(CharSequence report);
+    void hideReportData();
     void displayReportError();
     void displayLoadingIndicator();
     void hideLoadingIndicator();

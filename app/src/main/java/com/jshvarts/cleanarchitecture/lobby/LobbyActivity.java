@@ -51,7 +51,6 @@ public class LobbyActivity extends AppCompatActivity implements LobbyView {
 
     @OnClick(R.id.generate_report)
     public void onGenerateReportButtonClicked() {
-        displayReportTextView.setVisibility(View.GONE);
         presenter.generateReport();
     }
 
@@ -59,6 +58,11 @@ public class LobbyActivity extends AppCompatActivity implements LobbyView {
     public void displayReportData(CharSequence report) {
         displayReportTextView.setVisibility(View.VISIBLE);
         displayReportTextView.setText(report);
+    }
+
+    @Override
+    public void hideReportData() {
+        displayReportTextView.setVisibility(View.GONE);
     }
 
     @Override

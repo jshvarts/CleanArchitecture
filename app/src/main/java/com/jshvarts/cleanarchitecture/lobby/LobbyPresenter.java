@@ -88,6 +88,7 @@ class LobbyPresenter implements BasePresenter<LobbyView> {
                 case IDLE:
                     break;
                 case LOADING:
+                    view.hideReportData();
                     view.displayLoadingIndicator();
                     break;
                 case COMPLETE:
