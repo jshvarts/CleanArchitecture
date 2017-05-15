@@ -2,15 +2,14 @@ package com.jshvarts.cleanarchitecture.lobby;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
 import com.jshvarts.cleanarchitecture.mvp.BasePresenter;
+import com.jshvarts.cleanarchitecture.rx.SchedulersFacade;
 
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -19,7 +18,7 @@ import timber.log.Timber;
 
 class LobbyPresenter implements BasePresenter<LobbyView> {
 
-    private final static int REPORT_DELAY_MILLIS = 500;
+    final static int REPORT_DELAY_MILLIS = 500;
 
     enum RequestState {
         IDLE,
@@ -28,17 +27,20 @@ class LobbyPresenter implements BasePresenter<LobbyView> {
         ERROR
     }
 
-    BehaviorRelay<RequestState> state = BehaviorRelay.createDefault(RequestState.IDLE);
-
     private final LobbyReportUseCase lobbyReportUseCase;
+
+    private final SchedulersFacade schedulersFacade;
+
+    private BehaviorRelay<RequestState> state = BehaviorRelay.createDefault(RequestState.IDLE);
 
     private LobbyView view;
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject
-    LobbyPresenter(LobbyReportUseCase lobbyReportUseCase) {
+    LobbyPresenter(LobbyReportUseCase lobbyReportUseCase, SchedulersFacade schedulersFacade) {
         this.lobbyReportUseCase = lobbyReportUseCase;
+        this.schedulersFacade = schedulersFacade;
         setupRequestStateObserver();
     }
 
@@ -54,13 +56,18 @@ class LobbyPresenter implements BasePresenter<LobbyView> {
         view = null;
     }
 
+    String getLocalReport() {
+        String localReport = lobbyReportUseCase.getLocalReport();
+        Timber.d("localReport: " + localReport);
+        return localReport;
+    }
+
     void generateReport() {
         disposables.add(lobbyReportUseCase.generateReport()
                 .doOnSubscribe(s -> publishRequestState(RequestState.LOADING))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .delay(REPORT_DELAY_MILLIS, TimeUnit.MILLISECONDS,
-                        AndroidSchedulers.mainThread()) // demonstrate loading indicator ui while loading
+                .subscribeOn(schedulersFacade.io())
+                .observeOn(schedulersFacade.ui())
+                .delay(REPORT_DELAY_MILLIS, TimeUnit.MILLISECONDS, schedulersFacade.ui()) // demonstrate loading indicator ui while loading
                 .doOnSuccess(s -> publishRequestState(RequestState.COMPLETE))
                 .doOnError(t -> publishRequestState(RequestState.ERROR))
                 .subscribe(this::onReportDataAvailable, this::onReportDataError));
@@ -78,7 +85,7 @@ class LobbyPresenter implements BasePresenter<LobbyView> {
 
     void publishRequestState(RequestState requestState) {
         disposables.add(Observable.just(requestState)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulersFacade.ui())
                 .subscribe(state));
     }
 

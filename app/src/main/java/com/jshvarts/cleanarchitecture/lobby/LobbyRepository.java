@@ -7,4 +7,5 @@ import io.reactivex.Single;
  */
 public interface LobbyRepository {
     Single<String> getReport();
+    String getReportSync();
 }
