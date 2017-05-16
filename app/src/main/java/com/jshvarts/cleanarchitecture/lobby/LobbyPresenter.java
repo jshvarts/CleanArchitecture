@@ -9,14 +9,13 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
 import timber.log.Timber;
 
 /**
  * Lobby Presenter that provides interaction between lobby view layer from business logic.
  */
 
-class LobbyPresenter implements BasePresenter<LobbyView> {
+class LobbyPresenter extends BasePresenter<LobbyView> {
 
     final static int REPORT_DELAY_MILLIS = 500;
 
@@ -33,27 +32,11 @@ class LobbyPresenter implements BasePresenter<LobbyView> {
 
     private BehaviorRelay<RequestState> state = BehaviorRelay.createDefault(RequestState.IDLE);
 
-    private LobbyView view;
-
-    private CompositeDisposable disposables = new CompositeDisposable();
-
     @Inject
     LobbyPresenter(LobbyReportUseCase lobbyReportUseCase, SchedulersFacade schedulersFacade) {
         this.lobbyReportUseCase = lobbyReportUseCase;
         this.schedulersFacade = schedulersFacade;
         setupRequestStateObserver();
-    }
-
-    @Override
-    public void setView(LobbyView view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onViewDestroyed() {
-        Timber.d("disposing disposables");
-        disposables.dispose();
-        view = null;
     }
 
     String getLocalReport() {
@@ -63,7 +46,7 @@ class LobbyPresenter implements BasePresenter<LobbyView> {
     }
 
     void generateReport() {
-        disposables.add(lobbyReportUseCase.generateReport()
+        addDisposable(lobbyReportUseCase.generateReport()
                 .doOnSubscribe(s -> publishRequestState(RequestState.LOADING))
                 .subscribeOn(schedulersFacade.io())
                 .observeOn(schedulersFacade.ui())
@@ -84,7 +67,7 @@ class LobbyPresenter implements BasePresenter<LobbyView> {
     }
 
     void publishRequestState(RequestState requestState) {
-        disposables.add(Observable.just(requestState)
+        addDisposable(Observable.just(requestState)
                 .observeOn(schedulersFacade.ui())
                 .subscribe(state));
     }
