@@ -1,56 +1,54 @@
 package com.jshvarts.cleanarchitecture.lobby;
 
-import android.os.Build;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jshvarts.cleanarchitecture.BuildConfig;
+import com.jshvarts.cleanarchitecture.R;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for {@link LobbyActivity}.
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class LobbyActivityTest {
     static final CharSequence DUMMY_REPORT_DATA = "dummy report data";
 
+    @InjectMocks
     LobbyActivity testSubject;
 
+    @Mock
     LobbyPresenter presenter;
 
+    @Mock
     TextView displayReportTextView;
 
+    @Mock
     ProgressBar loadingIndicator;
 
     @Before
     public void setUp() throws Exception {
-        testSubject = Robolectric.buildActivity(LobbyActivity.class).create().get();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        testSubject.finish();
+        testSubject = Robolectric.setupActivity(LobbyActivity.class);
+        displayReportTextView = (TextView) testSubject.findViewById(R.id.display_report);
+        loadingIndicator = (ProgressBar) testSubject.findViewById(R.id.loading_indicator);
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void onDestroy_callsOnViewDestroyedOnPresenter() throws Exception {
-        // GIVEN
-        given_presenter();
-
         // WHEN
         testSubject.onDestroy();
 
@@ -60,9 +58,6 @@ public class LobbyActivityTest {
 
     @Test
     public void onGenerateReportButtonClicked_callsGenerateReportOnPresenter() throws Exception {
-        // GIVEN
-        given_presenter();
-
         // WHEN
         testSubject.onGenerateReportButtonClicked();
 
@@ -72,9 +67,6 @@ public class LobbyActivityTest {
 
     @Test
     public void displayReportData_setsReportTextViewVisibilityToVisible_andSetsText() throws Exception {
-        // GIVEN
-        given_displayReportTextView();
-
         // WHEN
         testSubject.displayReportData(DUMMY_REPORT_DATA);
 
@@ -85,9 +77,6 @@ public class LobbyActivityTest {
 
     @Test
     public void hideReportData_setsReportTextViewVisibilityToGone() throws Exception {
-        // GIVEN
-        given_displayReportTextView();
-
         // WHEN
         testSubject.hideReportData();
 
@@ -97,9 +86,6 @@ public class LobbyActivityTest {
 
     @Test
     public void displayLoadingIndicator_setsLoadingIndicatorVisibilityToVisible() throws Exception {
-        // GIVEN
-        given_loadingIndicator();
-
         // WHEN
         testSubject.displayLoadingIndicator();
 
@@ -109,28 +95,10 @@ public class LobbyActivityTest {
 
     @Test
     public void hideLoadingIndicator_setsLoadingIndicatorVisibilityToGone() throws Exception {
-        // GIVEN
-        given_loadingIndicator();
-
         // WHEN
         testSubject.hideLoadingIndicator();
 
         // THEN
         verify(loadingIndicator).setVisibility(View.GONE);
-    }
-
-    private void given_presenter() {
-        presenter = mock(LobbyPresenter.class);
-        testSubject.presenter = presenter;
-    }
-
-    private void given_displayReportTextView() {
-        displayReportTextView = mock(TextView.class);
-        testSubject.displayReportTextView = displayReportTextView;
-    }
-
-    private void given_loadingIndicator() {
-        loadingIndicator = mock(ProgressBar.class);
-        testSubject.loadingIndicator = loadingIndicator;
     }
 }
