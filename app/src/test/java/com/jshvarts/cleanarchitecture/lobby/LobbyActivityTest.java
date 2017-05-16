@@ -15,8 +15,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowToast;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -73,6 +77,18 @@ public class LobbyActivityTest {
         // THEN
         verify(displayReportTextView).setVisibility(View.VISIBLE);
         verify(displayReportTextView).setText(DUMMY_REPORT_DATA);
+    }
+
+    @Test
+    public void displayReportError_displaysToastWithCorrectErrorMessage() throws Exception {
+        // GIVEN
+        String expected = RuntimeEnvironment.application.getString(R.string.lobby_report_error_text);
+
+        // WHEN
+        testSubject.displayReportError();
+
+        // THEN
+        assertThat(ShadowToast.getTextOfLatestToast(), is(expected));
     }
 
     @Test
