@@ -16,10 +16,10 @@ class LobbyReportUseCase {
     }
 
     Single<String> generateReport() {
-        return repository.getReport();
+        return repository.getReportAsync();
     }
 
     String getLocalReport() {
-        return repository.getReportSync();
+        return repository.getReport();
     }
 }

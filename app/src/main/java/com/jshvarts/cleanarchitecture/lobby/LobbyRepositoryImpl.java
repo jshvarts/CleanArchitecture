@@ -7,15 +7,15 @@ import io.reactivex.Single;
  */
 public class LobbyRepositoryImpl implements LobbyRepository {
 
-    private static final String FAKE_REPORT_DATA = "this is a dummy lobby report.";
+    static final String FAKE_REPORT_DATA = "this is a dummy lobby report.";
 
     @Override
-    public Single<String> getReport() {
+    public Single<String> getReportAsync() {
         return Single.just(FAKE_REPORT_DATA);
     }
 
     @Override
-    public String getReportSync() {
+    public String getReport() {
         return FAKE_REPORT_DATA;
     }
 }
