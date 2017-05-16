@@ -13,6 +13,7 @@ import timber.log.Timber;
 public abstract class BasePresenter<T> implements Presenter<T> {
 
     protected T view;
+
     private CompositeDisposable disposables = new CompositeDisposable();
 
     public final void setView(T view) {
