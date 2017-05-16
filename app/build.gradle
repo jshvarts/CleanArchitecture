@@ -33,12 +33,19 @@ android {
         }
     }
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            testCoverageEnabled = true
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
+
+apply from: "$rootDir/config/jacoco.gradle"
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
