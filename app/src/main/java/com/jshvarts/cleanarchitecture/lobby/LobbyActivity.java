@@ -35,7 +35,9 @@ public class LobbyActivity extends AppCompatActivity implements LobbyView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lobby_activity);
 
-        App.getAppComponent(this).plus(new LobbyModule())
+        ((App)getApplication())
+                .getAppComponent()
+                .plus(new LobbyModule())
                 .inject(this);
 
         ButterKnife.bind(this);

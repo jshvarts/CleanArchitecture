@@ -1,11 +1,8 @@
 package com.jshvarts.cleanarchitecture;
 
 import android.app.Application;
-import android.content.Context;
-import android.support.annotation.VisibleForTesting;
 
 import com.jshvarts.cleanarchitecture.di.AppComponent;
-import com.jshvarts.cleanarchitecture.di.AppModule;
 import com.jshvarts.cleanarchitecture.di.DaggerAppComponent;
 
 import timber.log.Timber;
@@ -22,21 +19,15 @@ public class App extends Application {
         super.onCreate();
 
         setupTimber();
-    }
 
-    public static AppComponent getAppComponent(Context context) {
-        App app = (App) context.getApplicationContext();
-        if (app.appComponent == null) {
-            app.appComponent = app.createComponent();
-        }
-        return app.appComponent;
-    }
-
-    @VisibleForTesting
-    protected AppComponent createComponent() {
-        return DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
+        appComponent = DaggerAppComponent
+                .builder()
+                .application(this)
                 .build();
+    }
+
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
 
     protected void setupTimber() {
