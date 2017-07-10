@@ -1,12 +1,9 @@
 package com.jshvarts.cleanarchitecture.lobby;
 
-import com.jshvarts.cleanarchitecture.di.ActivityScope;
-
 import javax.inject.Inject;
 
 import io.reactivex.Single;
 
-@ActivityScope
 class LobbyReportUseCase {
     private final LobbyRepository repository;
 

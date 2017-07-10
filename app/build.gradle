@@ -4,7 +4,7 @@ apply plugin: 'me.tatarka.retrolambda'
 project.ext {
     supportAnnotationsVersion = "25.2.0"
     junitVersion = "4.12"
-    daggerVersion = "2.10"
+    daggerVersion = "2.11"
     rxAndroidVersion = "2.0.1"
     rxJavaVersion = "2.1.0"
     butterKnifeVersion = "8.5.1"
@@ -51,9 +51,16 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:$project.supportAnnotationsVersion"
 
-    // Dagger
+    // Dagger core
     compile "com.google.dagger:dagger:$project.daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$project.daggerVersion"
+
+    // Dagger Android
+    compile "com.google.dagger:dagger-android-support:$project.daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$project.daggerVersion"
+
+    // Use this instead if you'are NOT using support library
+    compile "com.google.dagger:dagger-android:$project.daggerVersion"
 
     // ReactiveX
     compile "io.reactivex.rxjava2:rxandroid:$project.rxAndroidVersion"

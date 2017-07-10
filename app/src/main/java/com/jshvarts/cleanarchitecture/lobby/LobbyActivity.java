@@ -7,7 +7,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jshvarts.cleanarchitecture.App;
 import com.jshvarts.cleanarchitecture.R;
 
 import javax.inject.Inject;
@@ -15,6 +14,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dagger.android.AndroidInjection;
 
 /**
  * Activity is the View component in our MVP.
@@ -32,13 +32,9 @@ public class LobbyActivity extends AppCompatActivity implements LobbyView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lobby_activity);
-
-        ((App)getApplication())
-                .getAppComponent()
-                .plus(new LobbyModule())
-                .inject(this);
 
         ButterKnife.bind(this);
 
