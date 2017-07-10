@@ -1,5 +1,6 @@
 package com.jshvarts.cleanarchitecture.lobby;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,11 +16,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
 /**
  * Activity is the View component in our MVP.
  */
-public class LobbyActivity extends AppCompatActivity implements LobbyView {
+public class LobbyActivity extends AppCompatActivity implements HasSupportFragmentInjector, LobbyView {
 
     @Inject
     protected LobbyPresenter presenter;
@@ -29,6 +33,9 @@ public class LobbyActivity extends AppCompatActivity implements LobbyView {
 
     @BindView(R.id.loading_indicator)
     protected ProgressBar loadingIndicator;
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,5 +83,10 @@ public class LobbyActivity extends AppCompatActivity implements LobbyView {
     @Override
     public void hideLoadingIndicator() {
         loadingIndicator.setVisibility(View.GONE);
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentDispatchingAndroidInjector;
     }
 }

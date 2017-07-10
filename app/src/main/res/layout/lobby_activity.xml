@@ -33,4 +33,11 @@
         android:visibility="gone"
         android:layout_gravity="center" />
 
+    <fragment
+        android:id="@+id/lobby_simple_fragment"
+        android:name="com.jshvarts.cleanarchitecture.lobby.LobbySimpleFragment"
+        android:layout_gravity="bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>
