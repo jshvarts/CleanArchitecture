@@ -1,5 +1,7 @@
 # CleanArchitecture
 
+[![Build Status](https://travis-ci.org/jshvarts/CleanArchitecture.svg?branch=master)](https://travis-ci.org/jshvarts/CleanArchitecture)
+
 Simple project setup showcasing Clean Architecture, MVP, RxJava including Espresso and unit tests using Mockito
 
 ## License

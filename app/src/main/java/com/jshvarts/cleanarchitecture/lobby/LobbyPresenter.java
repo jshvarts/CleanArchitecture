@@ -41,7 +41,7 @@ class LobbyPresenter extends BasePresenter<LobbyView> {
 
     String getLocalReport() {
         String localReport = lobbyReportUseCase.getLocalReport();
-        Timber.d("localReport: " + localReport);
+        Timber.d("localReport: %s", localReport);
         return localReport;
     }
 
@@ -57,12 +57,12 @@ class LobbyPresenter extends BasePresenter<LobbyView> {
     }
 
     void onReportDataAvailable(String report) {
-        Timber.d("report data: " + report);
+        Timber.d("report data: %s", report);
         view.displayReportData(report);
     }
 
     void onReportDataError(Throwable throwable) {
-        Timber.e("report error", throwable);
+        Timber.e(throwable, "report error");
         view.displayReportError();
     }
 

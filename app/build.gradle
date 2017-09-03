@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
 project.ext {
-    supportAnnotationsVersion = "25.2.0"
+    supportAnnotationsVersion = "26.0.2"
     junitVersion = "4.12"
     daggerVersion = "2.10"
     rxAndroidVersion = "2.0.1"
@@ -17,12 +17,12 @@ project.ext {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.jshvarts.cleanarchitecture"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
