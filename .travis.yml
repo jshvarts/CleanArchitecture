@@ -14,4 +14,4 @@ android:
     - android-26
 
 after_success:
-  - mvn clean test jacoco:report coveralls:jacoco
+  - ./gradlew jacocoDebugTestReport coveralls
