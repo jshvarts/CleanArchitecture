@@ -51,7 +51,8 @@ buildTypes.each { buildType ->
         executionData = files("${buildDir}/jacoco/${testTaskName}.exec")
 
         reports {
-            xml.enabled false
-        }
+        	xml.enabled = true // coveralls plugin depends on xml format report
+        	html.enabled = true
+	}
     }
 }
