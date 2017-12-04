@@ -37,7 +37,7 @@ buildTypes.each { buildType ->
     def buildTypeName = buildType.name.capitalize()
     def testTaskName = "test${buildTypeName}UnitTest"
 
-    task "jacocoTestReport" (type:JacocoReport, dependsOn: testTaskName) {
+    task "jacoco${buildTypeName}TestReport" (type:JacocoReport, dependsOn: testTaskName) {
 
         group = "Reporting"
         description = "Generate Jacoco coverage report for ${buildTypeName} build."
